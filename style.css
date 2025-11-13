@@ -6,18 +6,22 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: radial-gradient(circle at top left, #1e1e2f, #121212);
     min-height: 100vh;
     padding: 20px;
+    color: #e0e0e0;
 }
 
+/* Glass Container */
 .container {
     max-width: 800px;
     margin: 0 auto;
-    background: white;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
     border-radius: 20px;
     padding: 30px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Auth Screen Styles */
@@ -28,9 +32,10 @@ body {
 
 .auth-title {
     text-align: center;
-    color: #667eea;
+    color: #9f9fff;
     margin-bottom: 30px;
     font-size: 2em;
+    text-shadow: 0 0 10px rgba(159, 159, 255, 0.5);
 }
 
 .auth-tabs {
@@ -42,17 +47,20 @@ body {
 .auth-tab {
     flex: 1;
     padding: 12px;
-    background: #f8f9fa;
+    background: rgba(255, 255, 255, 0.08);
     border: none;
     cursor: pointer;
     font-size: 1em;
     border-radius: 10px;
     transition: all 0.3s;
+    color: #ccc;
+    backdrop-filter: blur(10px);
 }
 
 .auth-tab.active {
-    background: #667eea;
+    background: rgba(102, 126, 234, 0.6);
     color: white;
+    box-shadow: 0 0 15px rgba(102, 126, 234, 0.4);
 }
 
 .auth-form {
@@ -70,28 +78,32 @@ body {
 .form-label {
     display: block;
     margin-bottom: 8px;
-    color: #333;
+    color: #ccc;
     font-weight: 500;
 }
 
 .form-input {
     width: 100%;
     padding: 12px;
-    border: 2px solid #e0e0e0;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     font-size: 1em;
+    color: #fff;
     transition: all 0.3s;
+    backdrop-filter: blur(10px);
 }
 
 .form-input:focus {
     outline: none;
     border-color: #667eea;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
 }
 
 .auth-btn {
     width: 100%;
     padding: 15px;
-    background: #667eea;
+    background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
     border: none;
     border-radius: 10px;
@@ -101,18 +113,19 @@ body {
 }
 
 .auth-btn:hover {
-    background: #5568d3;
+    background: linear-gradient(135deg, #7689f1, #8b5ec6);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 5px 20px rgba(118, 137, 241, 0.5);
 }
 
 .error-message {
-    background: #f8d7da;
-    color: #721c24;
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff8080;
     padding: 12px;
     border-radius: 10px;
     margin-bottom: 20px;
     display: none;
+    border: 1px solid rgba(255, 0, 0, 0.2);
 }
 
 .error-message.show {
@@ -130,14 +143,15 @@ body {
 
 h1 {
     text-align: center;
-    color: #667eea;
+    color: #b2aaff;
     margin-bottom: 10px;
     font-size: 2em;
+    text-shadow: 0 0 10px rgba(178, 170, 255, 0.5);
 }
 
 .user-info {
     text-align: center;
-    color: #666;
+    color: #aaa;
     margin-bottom: 10px;
     font-size: 0.9em;
 }
@@ -146,31 +160,33 @@ h1 {
     display: block;
     margin: 0 auto 20px;
     padding: 8px 20px;
-    background: #6c757d;
+    background: rgba(255, 255, 255, 0.08);
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-size: 0.9em;
     transition: all 0.3s;
+    backdrop-filter: blur(10px);
 }
 
 .logout-btn:hover {
-    background: #5a6268;
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .date-display {
     text-align: center;
-    color: #666;
+    color: #aaa;
     margin-bottom: 20px;
     font-size: 0.9em;
 }
 
+/* Tabs */
 .tabs {
     display: flex;
     gap: 10px;
     margin-bottom: 30px;
-    border-bottom: 2px solid #e0e0e0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .tab {
@@ -179,21 +195,23 @@ h1 {
     border: none;
     cursor: pointer;
     font-size: 1em;
-    color: #666;
+    color: #aaa;
     transition: all 0.3s;
     border-bottom: 3px solid transparent;
 }
 
 .tab.active {
-    color: #667eea;
-    border-bottom-color: #667eea;
+    color: #9f9fff;
+    border-bottom-color: #9f9fff;
     font-weight: bold;
+    text-shadow: 0 0 8px rgba(159, 159, 255, 0.4);
 }
 
 .tab:hover {
-    color: #667eea;
+    color: #b3b3ff;
 }
 
+/* Workout Days */
 .workout-day {
     display: none;
 }
@@ -204,14 +222,14 @@ h1 {
 
 .day-title {
     font-size: 1.5em;
-    color: #333;
+    color: #eee;
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 2px solid #667eea;
+    border-bottom: 2px solid rgba(102, 126, 234, 0.6);
 }
 
 .exercise {
-    background: #f8f9fa;
+    background: rgba(255, 255, 255, 0.05);
     padding: 15px;
     margin-bottom: 12px;
     border-radius: 10px;
@@ -219,15 +237,16 @@ h1 {
     align-items: center;
     transition: all 0.3s;
     cursor: pointer;
+    backdrop-filter: blur(10px);
 }
 
 .exercise:hover {
-    background: #e9ecef;
+    background: rgba(255, 255, 255, 0.08);
     transform: translateX(5px);
 }
 
 .exercise.completed {
-    background: #d4edda;
+    background: rgba(40, 167, 69, 0.2);
     border-left: 4px solid #28a745;
 }
 
@@ -245,30 +264,33 @@ h1 {
 
 .exercise-name {
     font-weight: bold;
-    color: #333;
+    color: #e0e0e0;
     margin-bottom: 5px;
 }
 
 .exercise-details {
-    color: #666;
+    color: #aaa;
     font-size: 0.9em;
 }
 
+/* Stats Section */
 .stats {
     display: flex;
     gap: 15px;
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 2px solid #e0e0e0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .stat-card {
     flex: 1;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
     color: white;
     padding: 20px;
     border-radius: 10px;
     text-align: center;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .stat-value {
@@ -279,28 +301,31 @@ h1 {
 
 .stat-label {
     font-size: 0.9em;
-    opacity: 0.9;
+    opacity: 0.8;
 }
 
+/* Reset Button */
 .reset-btn {
     width: 100%;
     padding: 15px;
     margin-top: 20px;
-    background: #dc3545;
+    background: rgba(220, 53, 69, 0.6);
     color: white;
     border: none;
     border-radius: 10px;
     font-size: 1em;
     cursor: pointer;
     transition: all 0.3s;
+    backdrop-filter: blur(10px);
 }
 
 .reset-btn:hover {
-    background: #c82333;
+    background: rgba(220, 53, 69, 0.8);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
 }
 
+/* Responsive */
 @media (max-width: 600px) {
     .container {
         padding: 20px;
