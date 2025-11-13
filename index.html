@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piano Allenamento - Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .date-display {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            color: #666;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            font-weight: bold;
+        }
+
+        .tab:hover {
+            color: #667eea;
+        }
+
+        .workout-day {
+            display: none;
+        }
+
+        .workout-day.active {
+            display: block;
+        }
+
+        .day-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .exercise {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .exercise:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .exercise.completed {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .exercise-info {
+            flex: 1;
+        }
+
+        .exercise-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .exercise-details {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .stat-card {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .reset-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .reset-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                padding: 10px;
+            }
+
+            .stats {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💪 Piano Allenamento</h1>
+        <div class="date-display" id="dateDisplay"></div>
+
+        <div class="tabs">
+            <button class="tab active" data-day="a">GIORNO A</button>
+            <button class="tab" data-day="b">GIORNO B</button>
+            <button class="tab" data-day="c">GIORNO C</button>
+        </div>
+
+        <div id="dayA" class="workout-day active">
+            <div class="day-title">Petto e Tricipiti</div>
+            
+            <div class="exercise" data-exercise="a-1">
+                <input type="checkbox" class="checkbox">
+                <div class="exercise-info">
+                    <div class="exercise-name">Piegamenti sulle braccia</div>
+                    <div class="exercise-details">4 serie x 8-12 ripetizioni</div>
+                </div>
+            </div>
+
+            <div class="exercise" data-exercise="a-2">
+                <input type="checkbox" class="checkbox">
+                <div class="exercise-info">
+                    <div class="exercise-name">Piegamenti diamante</div>
+                    <div class="exercise-details">3 serie x 8-10 ripetizioni</div>
+                </div>
+            </div>
+
+            <div class="exercise" data-exercise="a-3">
+                <input type="checkbox" class="checkbox">
+                <div class="exercise-info">
+                    <div class="exercise-name">Dips tra due sedie</div>
+                    <div class="exercise-details">3 serie x 8-12 ripetizioni</div>
+                </div>
+            </div>
+
+            <div class="exercise" data-exercise="a-4">
+                <input type="checkbox" class="checkbox">
+                <div class="exercise-info">
+                    <div class="exercise-name">Estensioni tricipiti</div>
+                    <div class="exercise-details">3 serie x 12-15 ripetizioni</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dayB" class="workout-day">
+            <div class="day-title">Gambe e Glutei</div>
+            
+            <div class="exercise" data-exercise="b-1">
+                <input type="checkbox" class="checkbox">
+                <div class="exercise-info">
+                    <div class="exercise-name">Squat</div>
+                    <div class="exercise-details">4 serie x 12-15 ripetizioni</div>
+                </div>
+            </div>
+
+            <div class="exercise" data-exercise="b-2">
+                <input type="checkbox" class="checkbox">
+                <div class="exercise-info">
+                    <div class="exercise-name">Affondi alternati</div>
+                    <div class="exercise-details">3 serie x 10-12 per gamba</div>
+                </div>
+            </div>
+
+            <div class="exercise" data-exercise="b-3">
+                <input type="checkbox" class="checkbox">
+                <div class="exercise-info">
+                    <div class="exercise-name">Stacchi rumeni a una gamba</div>
+                    <div class="exercise-details">3 serie x 10 per gamba</div>
+                </div>
+            </div>
+
+            <div class="exercise" data-exercise="b-4">
+                <input type="checkbox" class="checkbox">
+                <div class="exercise-info">
+                    <div class="exercise-name">Squat bulgari</div>
+                    <div class="exercise-details">3 serie x 10 per gamba</div>
+                </div>
+            </div>
+
+            <div class="exercise" data-exercise="b-5">
+                <input type="checkbox" class="checkbox">
+                <div class="exercise-info">
+                    <div class="exercise-name">Calf raises</div>
+                    <div class="exercise-details">3 serie x 15-20 ripetizioni</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dayC" class="workout-day">
+            <div class="day-title">Schiena e Bicipiti</div>
+            
+            <div class="exercise" data-exercise="c-1">
+                <input type="checkbox" class="checkbox">
+                <div class="exercise-info">
+                    <div class="exercise-name">Trazioni (o negative)</div>
+                    <div class="exercise-details">4 serie x massime ripetizioni</div>
+                </div>
+            </div>
+
+            <div class="exercise" data-exercise="c-2">
+                <input type="checkbox" class="checkbox">
+                <div class="exercise-info">
+                    <div class="exercise-name">Rematore con zaino</div>
+                    <div class="exercise-details">4 serie x 10-12 ripetizioni</div>
+                </div>
+            </div>
+
+            <div class="exercise" data-exercise="c-3">
+                <input type="checkbox" class="checkbox">
+                <div class="exercise-info">
+                    <div class="exercise-name">Superman</div>
+                    <div class="exercise-details">3 serie x 15 ripetizioni</div>
+                </div>
+            </div>
+
+            <div class="exercise" data-exercise="c-4">
+                <input type="checkbox" class="checkbox">
+                <div class="exercise-info">
+                    <div class="exercise-name">Curl bicipiti</div>
+                    <div class="exercise-details">3 serie x 12-15 ripetizioni</div>
+                </div>
+            </div>
+
+            <div class="exercise" data-exercise="c-5">
+                <input type="checkbox" class="checkbox">
+                <div class="exercise-info">
+                    <div class="exercise-name">Curl a martello</div>
+                    <div class="exercise-details">3 serie x 12 ripetizioni</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="todayCount">0</div>
+                <div class="stat-label">Oggi</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="weekCount">0</div>
+                <div class="stat-label">Questa settimana</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalCount">0</div>
+                <div class="stat-label">Totale</div>
+            </div>
+        </div>
+
+        <button class="reset-btn" id="resetBtn">Resetta Progresso</button>
+    </div>
+
+    <script>
+        // IndexedDB Setup
+        let db;
+        const DB_NAME = 'WorkoutTrackerDB';
+        const STORE_NAME = 'exercises';
+
+        function initDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, 1);
+                
+                request.onerror = () => reject(request.error);
+                request.onsuccess = () => {
+                    db = request.result;
+                    resolve(db);
+                };
+                
+                request.onupgradeneeded = (event) => {
+                    db = event.target.result;
+                    if (!db.objectStoreNames.contains(STORE_NAME)) {
+                        const objectStore = db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+                        objectStore.createIndex('date', 'date', { unique: false });
+                    }
+                };
+            });
+        }
+
+        function saveExercise(exerciseId, completed) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                const today = new Date().toISOString().split('T')[0];
+                
+                const data = {
+                    id: `${exerciseId}-${today}`,
+                    exerciseId: exerciseId,
+                    date: today,
+                    completed: completed,
+                    timestamp: new Date().getTime()
+                };
+                
+                const request = store.put(data);
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        function loadExercises() {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([STORE_NAME], 'readonly');
+                const store = transaction.objectStore(STORE_NAME);
+                const today = new Date().toISOString().split('T')[0];
+                const request = store.getAll();
+                
+                request.onsuccess = () => {
+                    const allData = request.result;
+                    const todayData = allData.filter(item => item.date === today);
+                    resolve({ today: todayData, all: allData });
+                };
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        function clearAllData() {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.clear();
+                
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // UI Logic
+        function updateDate() {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const date = new Date().toLocaleDateString('it-IT', options);
+            document.getElementById('dateDisplay').textContent = date;
+        }
+
+        function updateStats(data) {
+            const today = new Date().toISOString().split('T')[0];
+            const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            
+            const todayCompleted = data.all.filter(item => 
+                item.date === today && item.completed
+            ).length;
+            
+            const weekCompleted = data.all.filter(item => 
+                item.date >= weekAgo && item.completed
+            ).length;
+            
+            const totalCompleted = data.all.filter(item => item.completed).length;
+            
+            document.getElementById('todayCount').textContent = todayCompleted;
+            document.getElementById('weekCount').textContent = weekCompleted;
+            document.getElementById('totalCount').textContent = totalCompleted;
+        }
+
+        async function loadUI() {
+            const data = await loadExercises();
+            
+            document.querySelectorAll('.exercise').forEach(exercise => {
+                const exerciseId = exercise.dataset.exercise;
+                const checkbox = exercise.querySelector('.checkbox');
+                const todayRecord = data.today.find(item => item.exerciseId === exerciseId);
+                
+                if (todayRecord && todayRecord.completed) {
+                    checkbox.checked = true;
+                    exercise.classList.add('completed');
+                } else {
+                    checkbox.checked = false;
+                    exercise.classList.remove('completed');
+                }
+            });
+            
+            updateStats(data);
+        }
+
+        async function handleCheckbox(exercise, checkbox) {
+            const exerciseId = exercise.dataset.exercise;
+            const isCompleted = checkbox.checked;
+            
+            await saveExercise(exerciseId, isCompleted);
+            
+            if (isCompleted) {
+                exercise.classList.add('completed');
+            } else {
+                exercise.classList.remove('completed');
+            }
+            
+            await loadUI();
+        }
+
+        // Event Listeners
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.workout-day').forEach(d => d.classList.remove('active'));
+                
+                tab.classList.add('active');
+                const day = tab.dataset.day;
+                document.getElementById(`day${day.toUpperCase()}`).classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.exercise').forEach(exercise => {
+            const checkbox = exercise.querySelector('.checkbox');
+            
+            exercise.addEventListener('click', (e) => {
+                if (e.target !== checkbox) {
+                    checkbox.checked = !checkbox.checked;
+                    handleCheckbox(exercise, checkbox);
+                }
+            });
+            
+            checkbox.addEventListener('change', () => {
+                handleCheckbox(exercise, checkbox);
+            });
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', async () => {
+            if (confirm('Sei sicuro di voler resettare tutto il progresso?')) {
+                await clearAllData();
+                await loadUI();
+            }
+        });
+
+        // Initialize
+        updateDate();
+        initDB().then(() => {
+            loadUI();
+        });
+    </script>
+</body>
+</html>
