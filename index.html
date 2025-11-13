@@ -565,7 +565,15 @@
             });
         }
 
+        async function ensureDBReady() {
+            if (!db) {
+                await initDB();
+            }
+
+        }
+
         async function registerUser(username, password) {
+            await ensureDBReady(); 
             return new Promise((resolve, reject) => {
                 const transaction = db.transaction([USERS_STORE], 'readwrite');
                 const store = transaction.objectStore(USERS_STORE);
@@ -585,6 +593,7 @@
         }
 
         async function loginUser(username, password) {
+            await ensureDBReady(); 
             return new Promise((resolve, reject) => {
                 const transaction = db.transaction([USERS_STORE], 'readonly');
                 const store = transaction.objectStore(USERS_STORE);
@@ -883,7 +892,7 @@
             }
         }
 
-        initializeApp();
+        window.addEventListener('DOMContentLoaded', initializeApp);
     </script>
 </body>
 
