@@ -1,5 +1,5 @@
 let db;
-let version = "1.0.0";
+let version = "1.0.1";
 const DB_NAME = 'WorkoutTrackerDB';
 const USERS_STORE = 'users';
 const EXERCISES_STORE = 'exercises';
@@ -8,7 +8,7 @@ let currentUser = null;
 function initDB() {
     console.info("version: ", version)
     return new Promise((resolve, reject) => {
-        const request = indexedDB.open(DB_NAME, 2);
+        const request = indexedDB.open(DB_NAME, 3);
 
         if (!window.indexedDB) {
             reject(new Error('IndexedDB not supported'));
@@ -22,21 +22,29 @@ function initDB() {
         };
 
         request.onupgradeneeded = (event) => {
-            db = event.target.result;
+    db = event.target.result;
+    const transaction = event.target.transaction;
 
-            // Users store
-            if (!db.objectStoreNames.contains(USERS_STORE)) {
-                const usersStore = db.createObjectStore(USERS_STORE, {keyPath: 'username'});
-                usersStore.createIndex('username', 'username', {unique: true});
-            }
+    if (!db.objectStoreNames.contains(USERS_STORE)) {
+        const usersStore = db.createObjectStore(USERS_STORE, {keyPath: 'username'});
+        usersStore.createIndex('username', 'username', {unique: true});
+    }
 
-            // Exercises store
-            if (!db.objectStoreNames.contains(EXERCISES_STORE)) {
-                const exercisesStore = db.createObjectStore(EXERCISES_STORE, {keyPath: 'id'});
-                exercisesStore.createIndex('userId', 'userId', {unique: false});
-                exercisesStore.createIndex('date', 'date', {unique: false});
-            }
-        };
+    if (!db.objectStoreNames.contains(EXERCISES_STORE)) {
+        const exercisesStore = db.createObjectStore(EXERCISES_STORE, {keyPath: 'id'});
+        exercisesStore.createIndex('userId', 'userId', {unique: false});
+        exercisesStore.createIndex('date', 'date', {unique: false});
+    } else {
+        const exercisesStore = transaction.objectStore(EXERCISES_STORE);
+        
+        if (!exercisesStore.indexNames.contains('userId')) {
+            exercisesStore.createIndex('userId', 'userId', {unique: false});
+        }
+        if (!exercisesStore.indexNames.contains('date')) {
+            exercisesStore.createIndex('date', 'date', {unique: false});
+        }
+    }
+};
     });
 }
 
