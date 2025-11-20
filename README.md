@@ -43,3 +43,4 @@ Il progetto è una singola pagina HTML e non richiede un server backend.
 *   **Sicurezza:** La "hash" della password (btoa()) è puramente dimostrativa. **Non** è adatta per ambienti di produzione reali.
     
 *   **Debugging:** Se si verificano errori NotFoundError: index not found, è necessario incrementare la versione del database in indexedDB.open(DB\_NAME, VERSIONE\_NUOVA) e pulire il vecchio database nel browser.
+
